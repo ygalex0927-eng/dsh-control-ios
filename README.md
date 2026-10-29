@@ -98,7 +98,7 @@ Tests/          折叠去重/分块/翻页、重复消息去重、流式增量�
 用与 App 相同的 Swift 源码（BridgeClient + SessionFold）跑的 CLI 校验：
 
 ```
-1. hello: protocol=2 machine=ElonAlex auth="none"
+1. hello: protocol=2 machine=<电脑名> auth="none"
 2. workspace/follow: workspaces=2 [Documents, dsh-control] archived=0 pinned=0
 3. session/list: 2 session(s)；title 为 null 时回退 cwd 末级
 4. session/follow(maxMessages=200): 18 records → 2 items
@@ -115,7 +115,7 @@ Tests/          折叠去重/分块/翻页、重复消息去重、流式增量�
 - **模型目录**：`session/modelCatalog`（args `{}`）按真实形状解析——provider = `groups[].id`、显示名 = `groups[].name`、model = `models[].id`、label = `models[].name`、思考强度 = `models[].reasoning.efforts` + `defaultEffort`；当前选择取 `projections.values.modelSelection.next ?? lastUsed ?? catalog.default`。
 - **模型选择器**：按 provider 分组的 sheet，先选模型再选思考强度（默认该模型 defaultEffort），「应用」一次性调 `session/selectModel {request:{sessionId,provider,model,reasoningEffort}}`；失败显示 `session/model-unavailable` / `gateway/arguments-invalid` 具体错误，不影响会话页。
 - **紧凑模型条**：输入框上方 `[cpu] DeepSeek-V4.1-Flash · Max ▾`，切换中显示 spinner；没有可用模型显示「模型不可用」并禁用。
-- **Token 用量**：会话头部显示 `↑340.2k · ↓301.9k · 缓存 139.4M`（`projections.values.tokenUsage`）；每条 assistant 消息底部显示 `data.usage`；菜单「会话统计」显示 turns/steps、模型用时、工具用时、平均 TTFT、TPS、缓存命中率。
+- **Token 用量**：会话头部显示 `↑12.4k · ↓3.1k · 缓存 48.2k`（`projections.values.tokenUsage`）；每条 assistant 消息底部显示 `data.usage`；菜单「会话统计」显示 turns/steps、模型用时、工具用时、平均 TTFT、TPS、缓存命中率。
 - **思考时间**：流式期间输入区上方「深度求索中 · 12.3s」实时递增（assistant-stream start 起算）；单条消息用 reasoning 首块到正文首块的流式时间差，标题「思考过程（N 字）· 4.2s」；拿不到时间戳时只显示字数。持久事件的 `reasoning` 块已解析，重开历史不丢。
 - **附件**：输入框「+」→ 相册（PhotosPicker 多选）或文件（fileImporter 任意类型）。图片读 Data → 单条 base64 内联（≤20MB/张、≤20 张）；其他文件先 `POST /v1/upload?sessionId=&name=`（原始字节 + URLSession 进度）换 receiptId，prompt 用 `{"type":"file","receiptId"}`。附件 chip 显示缩略图/文件名/上传百分比，失败可重试、可移除；上传中禁止发送；只有附件没有文字也能发；发送成功后清空。
 
